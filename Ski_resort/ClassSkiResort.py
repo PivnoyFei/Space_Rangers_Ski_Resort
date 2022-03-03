@@ -15,7 +15,10 @@ class Day:
     professional = 0  # профессионал
     advertising = 0  # расходы на рекламу
     popularity = 50  # Популярность курорта
+
+    month = 0
     day = 0
+
     old_professional = 0
     old_newbie = 0
     wesd = 0
@@ -44,6 +47,11 @@ class Day:
         self.left_professional = random.randint(1, 3)
         self.arrived_professional = random.randint(2, 6)
 
+        if self.popularity < 20:
+            self.left_newbie += 1
+            self.arrived_newbie -= 1
+            self.arrived_professional -= 1
+
         if self.popularity < 30:
             self.left_newbie += 1
             self.arrived_newbie -= 1
@@ -57,12 +65,16 @@ class Day:
             self.arrived_professional += random.randint(1, 2)
 
         if self.popularity > 70:
-            self.arrived_newbie += random.randint(1, 2)
+            self.arrived_newbie += random.randint(1, 3)
             self.arrived_professional += random.randint(1, 3)
 
         if self.popularity > 85:
-            self.arrived_newbie += random.randint(1, 2)
+            self.arrived_newbie += random.randint(1, 3)
             self.arrived_professional += random.randint(2, 5)
+
+        if self.popularity > 95:
+            self.arrived_newbie += random.randint(2, 5)
+            self.arrived_professional += random.randint(2, 7)
 
     def people(self):
         count = 0
@@ -95,6 +107,14 @@ class Day:
         self.popularity -= int(count * 1.5)
         self.left_newbie += int(count / 2)
         self.left_professional += int(count / 2)
+        if self.left_newbie > self.newbie:
+            self.left_newbie = self.newbie
+        if self.left_professional > self.professional:
+            self.left_professional = self.professional
+        if self.newbie < 0:
+            self.newbie = 0
+        if self.professional < 0:
+            self.professional = 0
 
     def profit_newbie(self):
         self.income_newbie = self.newbie * 2000

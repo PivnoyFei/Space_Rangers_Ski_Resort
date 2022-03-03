@@ -4,6 +4,11 @@ from ClassSkiResort import Day
 
 
 def new_day(d):
+    if d.day == 30:
+        d.day = 0
+        if d.month == 12:
+            d.month = -1
+        d.month += 1
     d.day += 1
     d.building = 0
     d.count_building = 0
@@ -20,20 +25,23 @@ def new_day(d):
     d.old_professional = d.professional
     d.old_newbie = d.newbie
 
-    d.get_arrived_left_newbie()  # новичков приехало и уехало
+    d.get_arrived_left_newbie()
     d.get_arrived_left_professional()
 
     d.get_trail_maintenance()
     d.cr -= d.trail_maintenance
     d.cr -= d.advertising
 
-    d.popularity += int((d.advertising / 10000) * random.randint(3, 5))
+    for _ in range(int(d.advertising / 10000)):
+        d.popularity += random.randint(3, 5)
     d.popularity -= random.randint(5, 10)
+    if d.popularity > 100:
+        d.popularity = 100
 
     if d.popularity < 0:
-        print(Q.the_end[0])
+        print(Q.the_end[2])
         return main(START)
-    if d.day > 20:
+    if d.day > 20 and START is False:
         print(Q.the_end[0])
         return main(START)
     if d.cr < 0:
@@ -50,7 +58,7 @@ def new_day(d):
         print(Q.end_or[1].format(name=name))
         return main(START)
 
-    print("================================================================")
+    print("================================НОВЫЙ ДЕНЬ================================")
     n_day = random.randint(0, 2)
     if n_day == 2:
         d.cr -= 1000
@@ -83,7 +91,6 @@ def get_advertising(d):
         if d.advertising != 0:
             print()
         if choice in (0, 1, 2, 3, 4, 5) and choice != num_choice:
-            num_choice = choice
             d.advertising = choice * 10000
             print(f"\nБудет сделано сказал менеджер по рекламе. "
                   f"- Текущие расходы на рекламу равны {d.advertising} cr в день. ")
@@ -222,8 +229,13 @@ def the_game(d):
                               + d.middle_track * Q.middle_track[2])
     track_occupancy_professional = (d.high_track * Q.high_track[2]
                                     + d.middle_track * Q.middle_track[2])
+    if START is False:
+        left_days = 20 - d.day
+    else:
+        left_days = d.day + d.month * 30
     days_list = {"day": d.day,
-                 "left_days": 20 - d.day,
+                 "month": Q.month[d.month],
+                 "left_days": left_days,
                  "it_was_newbie": d.old_newbie,
                  "newbie_left": d.left_newbie,
                  "newbie_arrived": d.arrived_newbie,
@@ -246,7 +258,10 @@ def the_game(d):
                  "lift_places": lift_places,
                  "track_newbie": track_occupancy_newbie,
                  "track_professional": track_occupancy_professional}
-    print(Q.days.format(**days_list))
+    if START is False:
+        print(Q.days.format(**days_list))
+    else:
+        print(Q.days_end.format(**days_list))
     return menu(d)
 
 
@@ -261,9 +276,11 @@ def main(d):
     while True:
         want_to_play = input()
         if want_to_play.lower() in ["начать новую игру", "начать", "1"]:
+            d = None
+            d = Day()
             START = False
             one_day(d)
-        elif want_to_play.lower() in ["продолжить", "2"] and d == 0:
+        elif want_to_play.lower() in ["продолжить", "2"]:
             START = True
             the_game(d)
         elif want_to_play.lower() in ["закончить", "завершить", "закрыть", "3"]:

@@ -38,6 +38,7 @@ def new_day(d):
     if d.popularity > 100:
         d.popularity = 100
 
+    global START
     if d.popularity < 0:
         print(Q.the_end[2])
         return main(START)
@@ -52,13 +53,15 @@ def new_day(d):
             d.popularity -= 40
         elif 60 > d.popularity > 40:
             d.popularity -= 20
+        START = True
         print(Q.end_or[0].format(name=name))
         return main(d)
     if d.cr > 10000000:
+        START = False
         print(Q.end_or[1].format(name=name))
         return main(START)
 
-    print("================================НОВЫЙ ДЕНЬ================================")
+    print("========================================== НОВЫЙ ДЕНЬ ==========================================")
     n_day = random.randint(0, 2)
     if n_day == 2:
         d.cr -= 1000
@@ -186,6 +189,8 @@ def get_building(d):
                 print("\nНедостаточно средств")
         elif choice_building == 7:
             return menu(d)
+        elif choice_building == 8:
+            return new_day(d)
 
 
 def one_day(d):
@@ -218,6 +223,8 @@ def menu(d):
             return get_building(d)
         elif play == 3:
             return new_day(d)
+        elif play.lower() in ["закончить", "завершить", "закрыть"]:
+            break
         play = 0
 
 
@@ -280,7 +287,7 @@ def main(d):
             d = Day()
             START = False
             one_day(d)
-        elif want_to_play.lower() in ["продолжить", "2"]:
+        elif want_to_play.lower() in ["продолжить", "2"] and START == True:
             START = True
             the_game(d)
         elif want_to_play.lower() in ["закончить", "завершить", "закрыть", "3"]:

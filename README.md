@@ -10,8 +10,9 @@
 Python 3.7.
 ```
 
-## Запуск игры
+Клонируем репозиторий и переходим в него:
 ```bash
+git clone https://github.com/PivnoyFei/Space_Rangers_Ski_Resort.git
 cd Ski_resort
 ```
 ```bash

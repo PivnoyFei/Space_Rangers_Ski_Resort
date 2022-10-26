@@ -160,7 +160,7 @@ def get_building(d):
         if choice_building.isdigit():
             choice_building = int(choice_building) - 1
 
-        if choice_building in (0, 1, 2, 3, 4, 5, 6):
+        if choice_building < 7:
             count = d.cr - Q.company_list[choice_building][0]
             if d.count_building < 2 and count > 0:
                 d.cr -= Q.company_list[choice_building][0]
@@ -294,6 +294,8 @@ def main(d):
             break
 
 
-name = 'Пивной Фей'
-START = False
-main(START)
+
+if __name__ == '__main__':
+    name = 'Пивной Фей'
+    START = False
+    main(START)

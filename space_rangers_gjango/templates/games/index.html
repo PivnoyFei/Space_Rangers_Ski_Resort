@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cache %}
+
+{% block title %} Все игры {% endblock title %}
+{% block content %}
+  {% cache 1 sidebar %}
+    <section class="grid">
+      <article class="grid-item">   
+          {% for key, value in description.items %}
+            <form action="{% url 'games:game' %}" method="post">
+              {% csrf_token %}
+              <button type="submit" name="{{ key }}" value="{{ key }}" class="list-group-item list-group-item-action"><h5 class="mb-1">&nbsp;{{ key }}</h5><p class="mb-1"><description class="game-text">&nbsp;{{ value.0 }}</description></p><small>{{ value.1 }}</small></button>
+            </form>
+          {% endfor %}
+      </article>
+    </section>
+  {% endcache %}
+{% endblock content %}

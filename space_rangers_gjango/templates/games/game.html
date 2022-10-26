@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load cache %}
+
+{% block title %} Все игры {% endblock title %}
+{% block content %}
+
+  <section class="grid">
+    <article class="grid-item">
+      <h4 align="center" class="game-text">{{ name }}</h4>
+      <p class="mb-3" align="center">{{ complexity }}</p>
+      <p class="mb-3"><description class="game-text">&nbsp;{{ description }}</description></p>
+
+              <div class="row">
+
+                {% for question in start_game %}
+                  {% if question == 'Начать сначала' and name == 'Лыжный курорт' %}
+                  <div class="col-4">
+                    <div class="d-grid gap-2" role="group" aria-label="First group">
+                        <button type="button" name="{{ question }}" value="{{ question }}" onclick="location='{% url 'ski_resort:ski_start' %}'" class="btn btn-primary">{{ question }}</button>
+                    </div>
+                  </div>
+                  {%endif%}
+                  {% if question == 'Продолжить' and name == 'Лыжный курорт' %}
+                    <div class="col-4">
+                      <div class="d-grid gap-2" role="group" aria-label="First group">
+                          <button type="button" name="{{ question }}" value="{{ question }}" onclick="location='{% url 'ski_resort:ski_continue' %}'" class="btn btn-primary {% if game_continue %}btn-light disabled{% endif %}">{% if game_continue %}Нет сохранения{% else %}{{ question }}{% endif %}</button>
+                      </div>
+                    </div>
+                  {%endif%}
+                {% endfor %}
+
+                <div class="col-4">
+                  <div class="d-grid gap-2" role="group" aria-label="First group">
+                      <button type="button" onclick="location='{% url 'games:index' %}'" class="btn btn-light">К списку квестов</button>
+                  </div>
+                </div>
+              </div>
+
+    </article>
+  </section>
+
+{% endblock content %}

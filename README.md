@@ -7,17 +7,25 @@
 
 ### Стек: 
 ```
-Python 3.7.
+Python 3.7. Django
 ```
 
-Клонируем репозиторий и переходим в него:
+#### Клонируем репозиторий и переходим в него:
 ```bash
 git clone https://github.com/PivnoyFei/Space_Rangers_Ski_Resort.git
-cd Ski_resort
+cd Space_Rangers_Ski_Resort
 ```
+## Запуск версии на python в консоли
+#### Выполните запуск SkiResort.py
 ```bash
-выполните запуск SkiResort.py
+python ski-resort-python/SkiResort.py
 ```
+
+# Запуск веб версии на Django переходим в папку space_rangers_gjango
+```bash
+cd space_rangers_gjango
+```
+
 
 ### Разработчик проекта
 - [Смелов Илья](https://github.com/PivnoyFei)
